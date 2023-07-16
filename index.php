@@ -1,0 +1,351 @@
+<?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+
+require 'PHPMailer/src/Exception.php';
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+@include 'config.php';
+
+if(isset($_POST['book'])){
+    $name = mysqli_real_escape_string($conn,$_POST['name']);
+    $email = mysqli_real_escape_string($conn,$_POST['email']);
+    $date = mysqli_real_escape_string($conn,$_POST['date']);
+    $mail = new PHPMailer(true);
+
+
+            $insert = " INSERT INTO appoinment_details(app_name, app_email, app_date) VALUES('$name','$email','$date') ";
+            $iquery = mysqli_query($conn, $insert);
+
+            if($iquery){
+                 $mail->isSMTP();                                           
+                 $mail->Host       = 'smtp.gmail.com';                     
+                 $mail->SMTPAuth   = true;                                   
+                 $mail->Username   = 'samyakjain2109@gmail.com';                    
+                 $mail->Password   = 'lqpvlknuijujmmnd';                             
+                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            
+                 $mail->Port       = 465;                                    
+                 $mail->setFrom('samyakjain2109@gmail.com', 'Medico');
+             
+                 $mail->addAddress($email);             
+             
+             
+                 $mail->isHTML(true);                                 
+                 $mail->Subject = 'Appoinment Booked For '.$name.'';
+                 $mail->Body    = 'Hi '.$name.'<br>Your appoinment is booked for Date: '.$date.'';
+             
+                 if($mail->send()){
+                    header('location:register_form.php');    
+                }
+                else{
+                    $error[] = "Email not sent but your's appoinment has been recorded.";
+                }
+            }
+            else{
+                $error[] = "Appoinment not booked! Please try again.";
+            }
+        
+    
+};
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IQAC DAVV</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="image/logo.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+
+<body>
+    <!-- header  -->
+    <header class="header">
+        <a href="#home" class="logo"><img src="image/logo1.png" alt=""> IQAC DAVV</a>
+
+        <nav class="navbar">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#members">Members</a>
+            <a href="#frequently">Notice</a>
+            <a href="#review">Downloads</a>
+            <a href="#contact">Contact</a>
+            <a href="http://localhost/login/register_form.php" class="appoinmentbtn">Login</a>
+        </nav>
+
+        <div id="menu-btn" class="fas fa-bars"></div>
+    </header>
+
+    <!-- header ends -->
+    <!-- home section start -->
+
+    <div class="card text-bg-dark" id="home">
+        <div class="img"><img src="image/davv2.png" class="card-img" alt="..."></div>
+        <div class="card-img-overlay" style="background-color:#fff;" >
+            <h5 class="card-title">Welcome to <br>INTERNAL QUALITY ASSURANCE CELL - DAVV</h5><br>
+            <p class="card-text">The Prime objective of the IQAC is to develop a system for conscious, consistent and catalytic action to improve the academic and administrative performance of the institution.According to the National Assessment and Accreditation Council (NAAC) every accredited institution of higher education should establish Internal Quality Assurance Cell (IQAC) as a post accreditation quality sustenance measure. The primary responsibility of IQAC is to ensure quality enhancement and sustenance. It ensures the efficiency and effectiveness of measures taken/methods used to provide high quality education and evaluate the degree to which each task is fulfilled.</p>
+            <!-- <div class="d-grid gap-2 col-6 mx-auto">
+                <button href="#about" class="btn btn-primary" type="button" style="border-color: #fff;">Read More</button>
+            </div> -->
+        </div>
+    </div>
+
+    <!-- home section ends -->
+    <!-- card section start -->
+    <!-- <section class="icons-container reveal">
+        <div class="icons">
+            <i class="fas fa-user-md"></i>
+            <h3>140+</h3>
+            <p>Doctors at Work</p>
+        </div>
+        <div class="icons">
+            <i class="fas fa-users"></i>
+            <h3>1040+</h3>
+            <p>Satisfied Patients</p>
+        </div>
+        <div class="icons">
+            <i class="fas fa-procedures"></i>
+            <h3>500+</h3>
+            <p>Bed Facility</p>
+        </div>
+        <div class="icons">
+            <i class="fas fa-hospital"></i>
+            <h3>80+</h3>
+            <p>Available Hospitals</p>
+        </div>
+    </section> -->
+    <!-- card section ends -->
+    <!-- emergency section -->
+    <!-- <div class="emergency reveal">
+        <div class="card text-center emergency-card">
+            <div class="card-body">
+                <h5 class="card-title">In an emergency? Need help now?</h5>
+                <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis ab, repellendus, hic dolor aperiam quod reprehenderit dignissimos veritatis maiores rerum, similique corrupti dolorem voluptatum consequuntur ullam deserunt iusto pariatur
+                    eveniet?
+                </p><br>
+                <a href="#appoinment" class="btn btn-primary emergency-btn" style="border-color: #fff;">Book Appoinment Now.</a>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- emergency section ends -->
+    <!-- about us -->
+    <section id="about" class="about reveal">
+        <h1 class="heading"><span>About</span> Us</h1>
+        <div class="row">
+            <div class="image"><img src="image/iqac.jpg" alt=""></div>
+            <div class="content">
+                <h3>We take care of your quality</h3>
+                <p>Internal Quality Assurance Cell (IQAC) has been established as a post-accreditation quality sustenance measure for performance evaluation, assessment and accreditation and quality up-gradation of institutions of higher education. According to the National Assessment and Accreditation Council (NAAC) every accredited institution of higher education should establish Internal Quality Assurance Cell (IQAC) as a post accreditation quality sustenance measure. The primary responsibility of IQAC is to ensure quality enhancement and sustenance. It ensures the efficiency and effectiveness of measures taken/methods used to provide high quality education and evaluate the degree to which each task is fulfilled. Since quality enhancement is a continuous process, the IQAC will become a part of the institution's system and work towards realization of the goals of quality enhancement and sustenance.</p>
+                <a href="#" class="btn">Learn More<span class="fas fa-chevron-right"></span></a>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- about us ends-->
+    <!-- service section start -->
+    <section id="service" class="service reveal">
+        <h1 class="heading">Our <span>Functions</span></h1>
+        <div class="box-container">
+            <div class="box">
+            <i class="fa-solid fa-building-columns"></i>
+                <p>Development and application of quality benchmarks for the various academic and administrative activities of the institution</p>
+            </div>
+            <div class="box">
+            <i class="fa-solid fa-circle-info"></i>
+                <p>Dissemination of information on the various quality parameters of higher education.</p>
+            </div>
+            <div class="box">
+            <i class="fa-solid fa-chart-bar"></i>
+                <p>Preparation of the Annual Quality Assurance Report (AQAR) to be submitted to NAAC based on the quality parameters.</p>
+            </div>
+            <div class="box">
+            <i class="fa-solid fa-file"></i>
+                <p>Documentation of the various programmes / activities leading to quality improvement</p>
+            </div>
+            <div class="box">
+            <i class="fa-solid fa-book"></i>
+                <p>Organization of workshops, seminars on quality related themes and promotion of quality circles</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- service section ends -->
+    <!-- doctor section start -->
+    <section class="doctors reveal" id="members">
+        <h1 class="heading">Our <span>Members</span></h1>
+        <div class="box-container">
+            <div class="box">
+                <img src="image/renujain.jpeg" alt="">
+                <h3>Prof Renu Jain</h3>
+                <span>Hon’ble Vice Chancellor, DAVV</span>
+                <div class="share">
+                    <a href="" class="fab fa-facebook-f"></a>
+                    <a href="" class="fab fa-twitter"></a>
+                    <a href="" class="fab fa-instagram"></a>
+                    <a href="" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+            <div class="box">
+                <img src="image/doc-2.jpg" alt="">
+                <h3>John Doe</h3>
+                <span>Expert Teacher</span>
+                <div class="share">
+                    <a href="" class="fab fa-facebook-f"></a>
+                    <a href="" class="fab fa-twitter"></a>
+                    <a href="" class="fab fa-instagram"></a>
+                    <a href="" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+            <div class="box">
+                <img src="image/doc-3.jpg" alt="">
+                <h3>John Doe</h3>
+                <span>Expert Teacher</span>
+                <div class="share">
+                    <a href="" class="fab fa-facebook-f"></a>
+                    <a href="" class="fab fa-twitter"></a>
+                    <a href="" class="fab fa-instagram"></a>
+                    <a href="" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+            <div class="box">
+                <img src="image/doc-4.jpg" alt="">
+                <h3>John Doe</h3>
+                <span>Expert Teacher</span>
+                <div class="share">
+                    <a href="" class="fab fa-facebook-f"></a>
+                    <a href="" class="fab fa-twitter"></a>
+                    <a href="" class="fab fa-instagram"></a>
+                    <a href="" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+            <div class="box">
+                <img src="image/doc-5.jpg" alt="">
+                <h3>John Doe</h3>
+                <span>Expert Teacher</span>
+                <div class="share">
+                    <a href="" class="fab fa-facebook-f"></a>
+                    <a href="" class="fab fa-twitter"></a>
+                    <a href="" class="fab fa-instagram"></a>
+                    <a href="" class="fab fa-linkedin"></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- doctor section ends -->
+    
+
+    
+    <!-- FREQUENTLY ASKED SECTION -->
+
+    <section class="frequently reveal" id="frequently">
+        <h1 class="heading">Notices and <span>Announcements</span></h1>
+        <div class="accordion" id="accordionExample">
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    10th Monthly Meeting of DQAC Coordinators along with DQAC Chairmen (UTD Heads/Directors/In-Charge)  31.03.2018  
+                </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    <a href="http://www.iqac.dauniv.ac.in/sitedata/Notices%20and%20announcements/Notice_10th%20Meeting_05.04.18.pdf" download>Notice_10th 20Meeting_05.04.18.pdf</a>
+                    </div>
+                </div>
+            </div>
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    9th Monthly Meeting of DQAC Coordinators along with DQAC Chairmen (UTD Heads/Directors/In-Charge) 09.01.2018
+                </button>
+                </h2>
+                <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                    <a href="http://www.iqac.dauniv.ac.in/sitedata/Notices%20and%20announcements/Notice_Agenda%20Items_9th%20Meeting_18.01.18_DQAC%20Coordinators.zip" download>Notice/Agenda Items</a>
+                    </div>
+                </div>
+            </div>
+            
+            
+        </div>
+    </section>
+
+    <!-- frequently asked question ends -->
+    <!-- contact section start -->
+    <section class="contact reveal" id="contact">
+        <h3 class="heading">Contact<span>Us</span></h3>
+        <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum dolorum odio temporibus fuga impedit commodi maxime laudantium modi adipisci non.</p> -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3680.3240535693762!2d75.86930897456065!3d22.716193727693632!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3962fd16df120227%3A0xd5b5a0bb71543c2b!2sDevi%20Ahilya%20Vishwavidyalaya!5e0!3m2!1sen!2sin!4v1689526541530!5m2!1sen!2sin" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="box-container">
+            <div class="box">
+                <i class="fas fa-location-dot"></i>
+                <h3>Address</h3>
+                <p>565,Lorem, ipsum.<br>Lorem, ipsum.</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-envelope"></i>
+                <h3>Email Us</h3>
+                <p>abcd@xyz.com<br>abcdk@xyz.com</p>
+            </div>
+            <div class="box">
+                <i class="fas fa-phone"></i>
+                <h3>Contact Us</h3>
+                <p>+91-5455525257<br>+91-5556552232</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- contact us section ends -->
+    <!-- footer section start -->
+    <section class="footer" id="footer">
+        <div class="box-container">
+            <div class="box">
+                <h3>Quick Links</h3>
+                <a href="#"><i class="fas fa-chevron-right"></i>Home</a>
+                <a href="#"><i class="fas fa-chevron-right"></i>About</a>
+                <a href="#"><i class="fas fa-chevron-right"></i>Members</a>
+                <a href="#"><i class="fas fa-chevron-right"></i>Notice and Announcements</a>
+                <a href="#"><i class="fas fa-chevron-right"></i>Downloads</a>
+                <a href="#"><i class="fas fa-chevron-right"></i>Contact</a>
+                <a href="#"><i class="fas fa-chevron-right"></i>Login</a>
+            </div>
+
+            <div class="box">
+                <h3>Contact Info</h3>
+                <a href="#"><i class="fas fa-phone"></i>+91-5455525257</a>
+                <a href="#"><i class="fas fa-phone"></i>+91-5455525257</a>
+                <a href="#"><i class="fas fa-envelope"></i>abcd@xyz.com</a>
+                <a href="#"><i class="fas fa-envelope"></i>abcd@xyz.com</a>
+                <a href="#"><i class="fas fa-location-dot"></i>5156,Lorem, ipsum dolor.</a>
+            </div>
+            <div class="box">
+                <h3>Follow Us</h3>
+                <a href="#"><i class="fab fa-facebook-f"></i>Facebook</a>
+                <a href="#"><i class="fab fa-twitter"></i>Twitter</a>
+                <a href="#"><i class="fab fa-instagram"></i>Instagram</a>
+                <a href="#"><i class="fab fa-linkedin"></i>Linkedin</a>
+            </div>
+        </div>
+        <div class="credit">© Created By <span>Samyak Jain</span> | All Rights Reserved</div>
+    </section>
+
+
+
+
+
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa" crossorigin="anonymous"></script>
+
+</body>
+
+</html>
