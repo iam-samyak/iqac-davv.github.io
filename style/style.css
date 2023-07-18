@@ -324,6 +324,68 @@ html {
 }
 
 
+/* extra section */
+
+.container {
+    max-width: 1120px;
+    width: 100%;
+    padding: 40px 0;
+  }
+  .slide-container {
+    margin: 0 30px;
+    overflow: hidden;
+  }
+  .card {
+    background: #fff;
+    border-radius: 8px;
+  }
+  .card .image-box {
+    height: 200px;
+  }
+  .card .image-box img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px 8px 0 0;
+  }
+  .card .profile-details {
+    display: flex;
+    align-items: center;
+    column-gap: 12px;
+    padding: 15px;
+  }
+  .card .profile-details img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+  }
+  .profile-details .name {
+    font-size: 15px;
+    font-weight: 500;
+  }
+  .profile-details .job {
+    font-size: 12px;
+    font-weight: 500;
+    color: #4d4d4d;
+  }
+  .swiper-navBtn {
+    color: #000;
+    height: 40px;
+    width: 40px;
+    background: #fff;
+    border-radius: 50%;
+  }
+  .swiper-navBtn::before,
+  .swiper-navBtn::after {
+    font-size: 18px;
+  }
+  .swiper-pagination-bullet {
+    background-color: #000;
+  }
+
+
+
+
+
 /* doctor section */
 
 .doctors {
@@ -331,11 +393,15 @@ html {
 }
 
 .doctors .box-container {
-    display: grid;
+    display: flex;
     gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     padding: 3rem;
     width: 100%;
+    overflow-x:auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    /* cursor: grab; */
 }
 
 .doctors .box-container .box {
@@ -352,18 +418,20 @@ html {
     border-radius: 0.5rem;
     margin-top: 1rem;
     margin-bottom: 1rem;
+    pointer-events: none;
 }
 
 .doctors .box-container .box h3 {
     color: black;
     /* width: fit-content; */
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 .doctors .box-container .box span {
     color: #00CDFF;
     width: fit-content;
     font-size: 1.5rem;
+    padding: 5px;
 }
 
 .doctors .box-container .box .share {
@@ -707,6 +775,12 @@ html {
 
 
 /* media queries */
+
+@media screen and (max-width: 768px) {
+    .swiper-navBtn {
+      display: none;
+    }
+  }
 
 @media (max-width:1144px) {
     .card-img-overlay {

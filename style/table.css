@@ -1,0 +1,33 @@
+.table-bordered{
+    width:80%;
+    margin:auto;
+    text-align:center;
+    border: 2px solid black;
+    
+}
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	right:40px;
+	background-color:#00CDFF;
+	color:#FFF;
+	border-radius:50px;
+	text-align:center;
+	box-shadow: 2px 2px 3px #999;
+}
+
+h1 {
+    display: block;
+    font-size: 2em;
+    margin-block-start: 0.67em;
+    margin-block-end: 0.67em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    font-weight: bold;
+}
+.heading span {
+    /* text-transform: uppercase; */
+    color: #00CDFF;
+}
